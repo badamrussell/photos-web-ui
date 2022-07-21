@@ -7,9 +7,6 @@ https://medium.com/google-design/google-photos-45b714dfbed1
 remaining
 - Add typescript
 - add gutters between photos
-- show current page in top-right of screen
-  - grabbing that will allow you to scroll through the variouse pages
-  - pexels curated api looks to have 8000 results. 80 per page. so 100 pages.
 - placeholder images while loading?
 - add more photos
   - sections could just be page requests. THere are no
@@ -19,7 +16,7 @@ remaining
   - I don't think I can get this with flexbox.
   - try grid
   - otherwise have to calculate it
-- Do i need object pooling for smoother scrolling?
+- Do I need object pooling for smoother scrolling?
   - is there a fps tool in chrome dev tools?
 - window resize, only redo calcs when resize is done
 - look for 
@@ -31,4 +28,8 @@ remaining
 - clicking a photo shows/animates into lightbox view, it might show more information also
 - review image aspect ratio https://jakearchibald.com/2022/img-aspect-ratio/
 - 
-- 
+
+complete
+- show current page in top-right of screen
+  - grabbing that will allow you to scroll through the variouse pages
+  - pexels curated api looks to have 8000 results. 80 per page. so 100 pages.
