@@ -1,7 +1,7 @@
 
 import curated001 from './data/curated_001.json';
 
-const API_KEY = '';
+const API_KEY = '563492ad6f91700001000001225f5ac4ebaf4dac8fd3481d7755beae';
 
 
 function curatePhotosAPI(page) {
@@ -23,6 +23,11 @@ function localData() {
     res(curated001);
   });
 }
+
 export function getCuratedPhotos() {
   return localData();
+}
+
+export function getCuratePhotosForPage(page) {
+  return curatePhotosAPI(page);
 }

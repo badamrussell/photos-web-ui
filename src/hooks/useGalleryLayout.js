@@ -1,5 +1,5 @@
 import React from "react";
-import {getCuratedPhotos} from "../api/PexelsAPI";
+import {getCuratedPhotos, getCuratePhotosForPage} from "../api/PexelsAPI";
 import curatedSummary from "../api/data/CuratedSummary.json";
 
 
@@ -41,12 +41,21 @@ export function GalleryLayoutProvider(props) {
       dispatch({ type: 'overwrite', data: newData });
     });
   }, []);
+
+
   function setSinglePage(page, data) {
     dispatch({ type: 'section-size', data, page })
   }
 
+  function requestNextPage(page) {
+    console.log('REQUEST PAGE', page);
+    getCuratePhotosForPage(page).then(result => {
+      setSinglePage(page, result);
+    });
+  }
+
   return (
-    <GalleryLayoutContext.Provider value={[state, { setSinglePage }]} {...props} />
+    <GalleryLayoutContext.Provider value={[state, { setSinglePage, requestNextPage }]} {...props} />
   );
 }
 

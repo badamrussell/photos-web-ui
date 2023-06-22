@@ -13,7 +13,6 @@ const StyledApp = styled.div`
 export default function App() {
   const [galleryPhotos] = useGalleryLayout();
 
-  console.log(galleryPhotos)
   return (
     <StyledApp>
       <h2>Photos Web UI Project</h2>

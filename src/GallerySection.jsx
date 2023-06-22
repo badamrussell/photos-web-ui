@@ -7,6 +7,9 @@ export function GallerySection({sectionData}) {
   const sectionRef = React.useRef();
   const [, {setSinglePage}] = useGalleryLayout();
 
+  const thing = React.useMemo(() => {
+
+  }, []);
   React.useEffect(() => {
     const bounds = sectionRef.current.getBoundingClientRect();
     setSinglePage(sectionData.page, {
@@ -15,6 +18,8 @@ export function GallerySection({sectionData}) {
   }, []);
 
   return (
+    <>
+    <hr />
     <div ref={sectionRef}>
       {
         sectionData.photos.length === 0
@@ -33,5 +38,6 @@ export function GallerySection({sectionData}) {
           )
       }
     </div>
+    </>
   );
 }

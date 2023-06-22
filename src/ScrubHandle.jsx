@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import {useGalleryLayout} from "./hooks/useGalleryLayout";
+import {useCurrentPage} from "./hooks/useCurrentPage";
+import {useScrollPosition} from "./hooks/UseScrollPosition";
 
 const HANDLE_HEIGHT = 40;
-const SECTION_SCROLL_THRESHOLD = 30;
 
 const StyledScrubHandle = styled.div`
   height: ${HANDLE_HEIGHT}px;
@@ -22,20 +23,18 @@ const StyledScrubHandle = styled.div`
   user-select: none;
 `;
 
-function useScrollPosition() {
-  const [scrollPosition, setScrollPosition] = React.useState(0);
+export function ScrubHandle() {
+  const [galleryLayout] = useGalleryLayout();
+  const [scrollPosition] = useScrollPosition();
+  const [currentPage] = useCurrentPage();
 
-  React.useEffect(() => {
-    const updateScrollPosition = () => {
-      setScrollPosition(window.scrollY);
-    }
-    window.addEventListener('scroll', updateScrollPosition);
-    return () => {
-      window.removeEventListener('scroll', updateScrollPosition);
-    };
-  }, []);
+  const scrubPosition = calculateScrubPosition(scrollPosition) || 0;
 
-  return [scrollPosition, ];
+  return (
+    <StyledScrubHandle style={{top: scrubPosition}} onMouseDown={startScrubbing}>
+      page {currentPage} of {galleryLayout.length}
+    </StyledScrubHandle>
+  );
 }
 
 
@@ -73,40 +72,4 @@ function startScrubbing(e) {
 
   window.addEventListener('mousemove', scrubbing);
   window.addEventListener('mouseup', stopScrubbing);
-}
-
-export function ScrubHandle() {
-  const [currentPageIndex, setCurrentPageIndex] = React.useState(0);
-  const [galleryLayout] = useGalleryLayout();
-  const [scrollPosition, ] = useScrollPosition();
-
-  const scrubPosition = calculateScrubPosition(scrollPosition) || 0;
-
-  React.useEffect(() => {
-    if (galleryLayout.length === 0) return;
-    let newPageIndex = 0;
-    const firstSectionOffset = galleryLayout[0].position;
-    const topPosition = window.scrollY + firstSectionOffset;
-    while(galleryLayout[newPageIndex].position < topPosition) {
-      if (newPageIndex >= galleryLayout.length) break;
-      newPageIndex++;
-    }
-    newPageIndex--;
-    newPageIndex = Math.max(0, newPageIndex);
-    if (window.scrollY >= document.body.scrollHeight - window.innerHeight - SECTION_SCROLL_THRESHOLD) {
-      newPageIndex = galleryLayout.length -1;
-    }
-
-    if (newPageIndex !== currentPageIndex) {
-      setCurrentPageIndex(newPageIndex);
-    }
-  }, [scrollPosition]);
-
-  const currentPage = galleryLayout[currentPageIndex] ? galleryLayout[currentPageIndex].page : 0;
-
-  return (
-    <StyledScrubHandle style={{top: scrubPosition}} onMouseDown={startScrubbing}>
-      page {currentPage} of {galleryLayout.length}
-    </StyledScrubHandle>
-  );
 }
